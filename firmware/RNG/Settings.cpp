@@ -32,12 +32,13 @@ void loadSettings()
 void defaultSettings() 
 {
   // Load default values if magic token is wrong
-
-  configuration.toggleSamples = 0;
-  configuration.toggleHold = 1;
-  configuration.toggleSkip = 0;
+  configuration.sampleReset = 1;
+  configuration.sampleBucket = 128;
+  configuration.sampleMultiple = 8;
   
-  configuration.roundDelay = 100;
+  configuration.delayHold = 1000;
+  configuration.delaySkip = 0;
+  configuration.delayRound = 10000;
   
   configuration.sampleMask = 0b0001111;
   configuration.sampleShift = 0;
@@ -49,5 +50,5 @@ void defaultSettings()
   
   configuration.output = 2;
   configuration.outputMode = 1;
-  configuration.outputBucket = 511;
+  configuration.outputBucket = 256;
 }

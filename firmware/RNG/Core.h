@@ -27,6 +27,6 @@ const uint8_t IMPROVED_VON_NEUMANN[][2] = {
 /**
  * Start sampling and gather random bits.
  */
-extern void sample();
+extern void loop();
 
 #endif

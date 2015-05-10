@@ -5,6 +5,9 @@ CommandLine commandLine(Serial, "> ");
 
 bool setupMode;
 
+/**
+ * Universal method for reading 1, 2 or 4 bytes.
+ */
 void parseCommand(void* property, size_t length, uint32_t min, uint32_t max)
 {
   char* parameter = strtok(NULL, " ");
@@ -38,24 +41,34 @@ void parseCommand(void* property, size_t length, uint32_t min, uint32_t max)
   }
 }
 
-void handleToggleSamples(char* tokens)
+void handleSampleReset(char* tokens)
 {
-  parseCommand(&configuration.toggleSamples, 4, 0, 4294967295U);
+  parseCommand(&configuration.sampleReset, 1, 0, 1); 
 }
 
-void handleToggleHold(char* tokens)
+void handleSampleBucket(char* tokens)
 {
-  parseCommand(&configuration.toggleHold, 4, 0, 4294967295U);
+  parseCommand(&configuration.sampleBucket, 2, 1, 128);
 }
 
-void handleToggleSkip(char* tokens)
+void handleSampleMultiple(char* tokens)
 {
-  parseCommand(&configuration.toggleSkip, 4, 0, 4294967295U);
+  parseCommand(&configuration.sampleMultiple, 2, 1, 65536U);
 }
 
-void handleRoundDelay(char* tokens)
+void handleDelayHold(char* tokens)
 {
-  parseCommand(&configuration.roundDelay, 4, 0, 4294967295U);
+  parseCommand(&configuration.delayHold, 4, 0, 4294967295U);
+}
+
+void handleDelaySkip(char* tokens)
+{
+  parseCommand(&configuration.delaySkip, 4, 0, 4294967295U);
+}
+
+void handleDelayRound(char* tokens)
+{
+  parseCommand(&configuration.delayRound, 4, 0, 4294967295U);
 }
 
 void handleSampleMask(char* tokens)
@@ -100,7 +113,7 @@ void handleOutputMode(char* tokens)
 
 void handleOutputBucket(char* tokens)
 {
-  parseCommand(&configuration.outputBucket, 2, 0, 511);
+  parseCommand(&configuration.outputBucket, 2, 1, 256);
 }
 
 void handleSave(char* tokens)
@@ -123,7 +136,7 @@ void handleDefaults(char* tokens)
 
 void handleHelp(char* tokens)
 {
-  Serial.println("Available commands: toggleSamples, toggleHold, toggleSkip, roundDelay, sampleMask, sampleShift, sampleTake, mode, extractor, generator, output, outputMode, outputBucket, save, load, defaults, help, run"); 
+  Serial.println("Available commands: sampleReset, sampleBucket, sampleMultiple, delayHold, delaySkip, delayRound, sampleMask, sampleShift, sampleTake, mode, extractor, generator, output, outputMode, outputBucket, save, load, defaults, help, run"); 
 }
 
 void handleRun(char* tokens)
@@ -134,11 +147,13 @@ void handleRun(char* tokens)
 
 void addCommands()
 {
-  commandLine.add("toggleSamples", &handleToggleSamples);
-  commandLine.add("toggleHold", &handleToggleHold);
-  commandLine.add("toggleSkip", &handleToggleSkip);
-  
-  commandLine.add("roundDelay", &handleRoundDelay);
+  commandLine.add("sampleReset", &handleSampleReset);
+  commandLine.add("sampleBucket", &handleSampleBucket);
+  commandLine.add("sampleMultiple", &handleSampleMultiple);
+
+  commandLine.add("delayHold", &handleDelayHold);
+  commandLine.add("delaySkip", &handleDelaySkip);  
+  commandLine.add("delayRound", &handleDelayRound);
   
   commandLine.add("sampleMask", &handleSampleMask);
   commandLine.add("sampleShift", &handleSampleShift);

@@ -41,23 +41,3 @@ void setup()
   Sha1.init();
 }
 
-/**
- *
- */
-void loop() 
-{
-  // Reset the NE555
-  digitalWrite(4, LOW);
-  delay(configuration.toggleHold);
-  digitalWrite(4, HIGH);
-  delay(configuration.toggleSkip);
-  
-  // Take samples
-  for (uint32_t i = 0; i < configuration.toggleSamples; i++) {
-    sample(); 
-  }
-  
-  // Round delay
-  delay(configuration.roundDelay);
-}
-

@@ -1,6 +1,17 @@
 #include "Core.h"
 
 /**
+ * Sample bucket
+ */
+volatile uint16_t sampleBucket[128];
+
+/**
+ * Process buffer
+ */
+volatile uint16_t processBuffer[2];
+volatile uint8_t processBufferCount;
+
+/**
  * Extraction buffer
  */
 volatile uint16_t extractBuffer;
@@ -21,7 +32,7 @@ volatile uint8_t outputBufferCount;
 /**
  * Output bucket
  */
-volatile uint8_t outputBucket[512];
+volatile uint8_t outputBucket[256];
 volatile uint16_t outputBucketIndex;
 
 void output(uint8_t value) 
@@ -115,12 +126,19 @@ void extract(uint8_t value, uint8_t count)
   }
 }
 
-void sample()
+void process(uint16_t sample)
 {
-  uint16_t sample = (analogRead(A0) & configuration.sampleMask) >> configuration.sampleShift;
+  sample = (sample & configuration.sampleMask) >> configuration.sampleShift;
   
   if (configuration.mode == 1) {
     extract(sample, configuration.sampleTake);
+  } else if (configuration.mode == 3) {
+    processBuffer[processBufferCount] = sample;
+    processBufferCount++;
+
+    if (processBufferCount == 2) {
+      extract(processBuffer[0] ^ processBuffer[1], configuration.sampleTake);
+    }
   } else if (configuration.mode == 2) {
     uint8_t count = 0;
     
@@ -132,4 +150,31 @@ void sample()
 
     extract(count > (configuration.sampleTake / 2) ? 1 : 0, 1);
   }
+}
+
+void loop()
+{
+  // Reset the NE555
+  if (configuration.sampleReset == 1) {
+    digitalWrite(4, LOW);
+    delayMicroseconds(configuration.delayHold);
+    digitalWrite(4, HIGH);
+    delayMicroseconds(configuration.delaySkip);
+  }
+  
+  // Take samples
+  for (uint16_t i = 0; i < configuration.sampleMultiple; i++) {
+    // Gather samples
+    for (uint16_t j = 0; j < configuration.sampleBucket; j++) {
+      sampleBucket[j] = analogRead(A0);
+    }
+    
+    // Process samples
+    for (uint16_t j = 0; j < configuration.sampleBucket; j++) {
+      process(sampleBucket[j]);
+    }
+  }
+  
+  // Round delay
+  delayMicroseconds(configuration.delayRound); 
 }

@@ -12,23 +12,25 @@
 struct configuration_t {
   uint32_t magic;
   
-  uint32_t toggleSamples; // Maximum number of samples before toggling NE555
-  uint32_t toggleHold; // Toggle hold delay in milliseconds
-  uint32_t toggleSkip; // Toggle skip delay in milliseconds
+  uint8_t sampleReset; // 0: No reset, 1: reset
+  uint16_t sampleBucket; // 1-128 samples to buffer before processing
+  uint16_t sampleMultiple; // Maximum number of samples buckets to take
   
-  uint32_t roundDelay; // Delay after each sample round in milliseconds
+  uint32_t delayHold; // Delay between toggle reset low and toggle reset high, in microseconds
+  uint32_t delaySkip; // Delay between toggling and sampling, in microseconds
+  uint32_t delayRound; // Delay after each sample round, in microseconds
   
   uint16_t sampleMask; // Mask to apply to sample
   uint8_t sampleShift; // Number of bits to shift sample to the right
   uint8_t sampleTake; // Number of bits to consider
   
-  uint8_t mode; // 1: Raw sample bits, 2: Ones-majority
+  uint8_t mode; // 1: Raw sample bits, 2: Ones-majority, 
   uint8_t extractor; // 1: None, 2: Von Neumann, 3: Improved Von Neumann
   uint8_t generator; // 1: None, 2: SHA1
   
   uint8_t output; // 1: Bits, 2: Bytes
   uint8_t outputMode; // 1: Raw, 2: Decimal (no newline), 3: Decimal (newline)
-  uint16_t outputBucket; // 0-511 bytes to buffer (will be allocated before running
+  uint16_t outputBucket; // 1-256 bytes to buffer
 };
 
 /**
