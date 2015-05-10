@@ -142,7 +142,6 @@ void handleHelp(char* tokens)
 void handleRun(char* tokens)
 {
   setupMode = false;
-  Serial.println("Run mode");
 }
 
 void addCommands()
