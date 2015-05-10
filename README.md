@@ -19,19 +19,19 @@ An operating system does not directly generate numbers from this pool, but uses 
 ### Project rationale
 In the last few years, processor manufacturers have incorporated hardware random number generators in processors. A kernel can use this source directly to generate random numbers, or to feed the entropy pool. However, with recent NSA leakings, some OS's have already [announced](http://www.theregister.co.uk/2013/12/09/freebsd_abandoning_hardware_randomness/) to not trust these output sources directly.
 
-This project is an open-source attempt to generate random numbers of sufficien quality, using a low number of hardware parts. It is based on [this](http://1474orchard.ca/projects/?x=entry:entry120926-185104) blog post, where the author is using a NE555 free-running oscillator and uses the clock drift as a source of randomness. An Arduino samples the output of the NE555 regularly. Clock drift is affected by temperature, part stability, voltage and many more factors, that are unpredictable in some sense. In short, given two waveforms they won't be the same as one period may be short or longer than the other.
+This project is an open-source attempt to generate random numbers of sufficien quality, using a low number of hardware parts. It is based on [this](http://1474orchard.ca/projects/?x=entry:entry120926-185104) blog post, where the author is using a NE555 free-running oscillator and uses the clock drift as a source of randomness. An Arduino samples the output of the NE555 regularly, which is a point on the waveform. Clock drift is affected by temperature, part stability, voltage and many more factors, that are unpredictable in some sense. In short, given two waveforms they won't be the same as one period may be a tiny bit shorter or longer. Using hardware parts with more tolerance (thus more error) is preferred.
 
-I have used this design and created an USB stick with a customizable firmware for generating random bytes. In addition to the original design, the NE555 can be reset before each iteration and the voltage reference for the ADC is customizable. Many parameters can be tuned to generate random numbers in a different way. The following features are available:
+I have used this design and created an USB stick with a customizable firmware for generating random bytes. In addition to the original design, the NE555 can be reset before each iteration (to target the same sample point) and the voltage reference for the ADC is customizable. Many parameters can be tuned to generate random numbers in a different way. The following features are available:
 
 * Sampling: batch-samples, or per-sample
 * Sample processing: masking, shifting and delays
-* Bit extracting: one-majority, or raw bits
+* Bit extracting: one-majority, XOR, or raw bits
 * Extraction: (Improved) Von Neumann bias removal, or none
 * Generating: SHA-1, or none
-* Buffering: store bytes to output chuncks, or continuously
+* Bucketing: buffer bytes to output chuncks, or continuously
 * Outputting: (Binary) bytes or bits
 
-To give an idea of the output, the following histogram was created, using ones-majority over the lower five bits and bias removal using Improved Von Neumann, without any generator. We should be careful to call this random from a graph only, because a predictable sequence from 0-255 over and over would generate a similar graph :-)
+To give an idea of the output, the following histogram was created, using ones-majority over the lower five bits and bias removal using Improved Von Neumann, without any generator. One should be careful to call the output random from this graph only, because a predictable sequence from 0-255 over and over would generate a similar graph.
 
 ![board](https://raw.github.com/basilfx/RNGstick/master/docs/byte_histogram.png)
 
@@ -39,6 +39,8 @@ To give an idea of the output, the following histogram was created, using ones-m
 The problem with random numbers is that you cannot prove they are random. However, there are statistical tests which can indicate if a sequence of random numbers is 'random' enough. Even a sequence of numbers that doesn't look random could be random, as the random number generator could produce this sequence.
 
 Three programs are available to check the produced sequences. The first is `ent`, which calculates the Entropy, Chi-square Distribution and the Arithmetic Mean Value. The second one is `rngtest`, which implements the FIPS 140-2 tests. The last one is `dieharder`, which implements a lot of different tests.
+
+Sidenote: SHA-1 will generate more bytes of randomness for one input byte. In some sense it is a pseudorandom algorithm. Given the internal state, the next output bytes can be predicted if the next input byte is predictable. Since SHA-1 is a computational strong hash function, it will most-certainly pass all statistical tests by default.
 
 TODO add test results here
 
