@@ -60,6 +60,7 @@ TODO add test results here
 |   C5      |   10nF        |   C-EUC0603K              |   C0603K        |
 |   C6      |   100nF       |   C-EUC0603K              |   C0603K        |
 |   C7      |   100nF       |   C-EUC0603K              |   C0603K        |
+|   C8      |   100nF       |   C-EUC0603K              |   C0603K        |
 |   D1      |               |   PESD5V0U1BB             |   SOD523        |
 |   D2      |               |   PESD5V0U1BB             |   SOD523        |
 |   IC1     |               |   NE555D                  |   SO08          |
@@ -69,13 +70,13 @@ TODO add test results here
 |   R2      |   330R        |   R-EU_R0603              |   R0603         |
 |   R3      |   10k         |   R-EU_R0603              |   R0603         |
 |   R4      |   10k         |   R-EU_R0603              |   R0603         |
-|   U$1     |               |   CH340G                  |   SOIC16        |
-|   U1      |               |   ATMEGA328_SMT           |   TQFP32-08     |
-|   X1      |   12MHz       |   CRYSTALS-NOGND-4-HSMX   |   HC49-4-HSMX   |
-|   X2      |   16MHz       |   CRYSTALS-NOGND-4-HSMX   |   HC49-4-HSMX   |
+|   U2      |               |   CH340G                  |   SOIC16        |
+|   U1      |               |   ATMEGA328               |   TQFP32-08     |
+|   Q1      |   16MHz       |   MT-OSCILLATOR           |   MT            |
+|   Q2      |   12MHz       |   MT-OSCILLATOR           |   MT            |
 
 ### Board render
-Render of the stick. It measures 1.50x0.65 inch.
+Render of the stick. It measures 1.45x0.65 inch.
 
 ![board](https://raw.github.com/basilfx/RNGstick/master/docs/stick.png)
 
