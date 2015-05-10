@@ -33,7 +33,7 @@ void defaultSettings()
 {
   // Load default values if magic token is wrong
   configuration.sampleReset = 1;
-  configuration.sampleBucket = 128;
+  configuration.sampleBucket = 256;
   configuration.sampleMultiple = 8;
   
   configuration.delayHold = 1000;

@@ -3,7 +3,7 @@
 /**
  * Sample bucket
  */
-volatile uint16_t sampleBucket[128];
+volatile uint16_t sampleBucket[256];
 
 /**
  * Process buffer

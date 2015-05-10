@@ -24,11 +24,11 @@ void parseCommand(void* property, size_t length, uint32_t min, uint32_t max)
     int value = atoi(parameter);
     
     if (value < min || value > max) {
-      Serial.print("Value not in range: ");
+      Serial.print(F("Value not in range: "));
       Serial.print(min);
-      Serial.print(" - ");
+      Serial.print(F(" - "));
       Serial.print(max);
-      Serial.println("");
+      Serial.println(F(""));
     } else {
       if (length == 1) {
         *(uint8_t*) property = (uint8_t) value;
@@ -48,7 +48,7 @@ void handleSampleReset(char* tokens)
 
 void handleSampleBucket(char* tokens)
 {
-  parseCommand(&configuration.sampleBucket, 2, 1, 128);
+  parseCommand(&configuration.sampleBucket, 2, 1, 256);
 }
 
 void handleSampleMultiple(char* tokens)
@@ -119,24 +119,24 @@ void handleOutputBucket(char* tokens)
 void handleSave(char* tokens)
 {
   saveSettings();
-  Serial.println("Settings saved.");
+  Serial.println(F("Settings saved."));
 }
 
 void handleLoad(char* tokens)
 {
   loadSettings();
-  Serial.println("Settings loaded.");
+  Serial.println(F("Settings loaded."));
 }
 
 void handleDefaults(char* tokens)
 {
   defaultSettings();
-  Serial.println("Default settings (not saved).");
+  Serial.println(F("Default settings (not saved)."));
 }
 
 void handleHelp(char* tokens)
 {
-  Serial.println("Available commands: sampleReset, sampleBucket, sampleMultiple, delayHold, delaySkip, delayRound, sampleMask, sampleShift, sampleTake, mode, extractor, generator, output, outputMode, outputBucket, save, load, defaults, help, run"); 
+  Serial.println(F("Available commands: sampleReset, sampleBucket, sampleMultiple, delayHold, delaySkip, delayRound, sampleMask, sampleShift, sampleTake, mode, extractor, generator, output, outputMode, outputBucket, save, load, defaults, help, run"));
 }
 
 void handleRun(char* tokens)

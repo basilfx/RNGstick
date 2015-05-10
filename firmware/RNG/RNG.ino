@@ -5,7 +5,11 @@
 #include <sha1.h>
 #include <CommandLine.h>
 
-uint8_t mode;
+// Define various ADC prescaler
+const unsigned char PS_16 = (1 << ADPS2);
+const unsigned char PS_32 = (1 << ADPS2) | (1 << ADPS0);
+const unsigned char PS_64 = (1 << ADPS2) | (1 << ADPS1);
+const unsigned char PS_128 = (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 
 /**
  * Setup the RNG. If PIN5 is toggled high, setup mode will be activated.
@@ -26,11 +30,15 @@ void setup()
   pinMode(5, INPUT);
   analogReference(EXTERNAL);
   
+  // Set up ADC speed
+  ADCSRA &= ~PS_128;
+  ADCSRA |= PS_32;
+  
   // Enter setup mode
   setupMode = digitalRead(5);
   
   if (setupMode) {
-    Serial.println("Setup mode");
+    Serial.println(F("Setup mode"));
 
     while (setupMode) {
       commandLine.update();

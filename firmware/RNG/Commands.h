@@ -2,7 +2,10 @@
 #define __COMMANDS_H__
 
 // Number of commands to support, should be defined before including CommandLine.h
-#define COMMANDLINE_COUNT 20
+#define COMMANDLINE_COUNT 24
+
+// Number of characters to buffer per input line
+#define COMMANDLINE_BUFFER 24
 
 #include <stdint.h>
 
