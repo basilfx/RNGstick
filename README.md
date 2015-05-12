@@ -21,6 +21,12 @@ In the last few years, processor manufacturers have incorporated hardware random
 
 This project is an open-source attempt to generate random numbers of sufficien quality, using a low number of hardware parts. It is based on [this](http://1474orchard.ca/projects/?x=entry:entry120926-185104) blog post, where the author is using a NE555 free-running oscillator and uses the clock drift as a source of randomness. An Arduino samples the output of the NE555 regularly, which is a point on the waveform. Clock drift is affected by temperature, part stability, voltage and many more factors, that are unpredictable in some sense. In short, given two waveforms they won't be the same as one period may be a tiny bit shorter or longer. Using hardware parts with more tolerance (thus more error) is preferred.
 
+The next two graphs the P(x) values of the ADC sample distribution over the full ADC sample space (10 bits) and the bit distribution (again, 10 bits). Both graphs match the ones from the blog post. Note how the lower 5 bits are uniformly distributed.
+
+![board](https://raw.github.com/basilfx/RNGstick/master/docs/adc_10bit.png)
+
+![board](https://raw.github.com/basilfx/RNGstick/master/docs/bit_distribution.png)
+
 I have used this design and created an USB stick with a customizable firmware for generating random bytes. In addition to the original design, the NE555 can be reset before each iteration (to target the same sample point) and the voltage reference for the ADC is customizable. Many parameters can be tuned to generate random numbers in a different way. The following features are available:
 
 * Sampling: batch-samples, or per-sample
@@ -31,9 +37,11 @@ I have used this design and created an USB stick with a customizable firmware fo
 * Bucketing: buffer bytes to output chuncks, or continuously
 * Outputting: (Binary) bytes or bits
 
-To give an idea of the output, the following histogram was created, using ones-majority over the lower five bits and bias removal using Improved Von Neumann, without any generator. One should be careful to call the output random from this graph only, because a predictable sequence from 0-255 over and over would generate a similar graph.
+To give an idea of the output, the following distribution of the P-values was created, using ones-majority over the lower five bits and bias removal using Improved Von Neumann, without any generator. One should be careful to call the output random from this graph only, because a predictable sequence from 0-255 over and over would generate a similar graph.
 
-![board](https://raw.github.com/basilfx/RNGstick/master/docs/byte_histogram.png)
+![board](https://raw.github.com/basilfx/RNGstick/master/docs/rng_out.png)
+
+More graphs can be found [here](https://raw.github.com/basilfx/RNGstick/master/docs/Graphs.md).
 
 ### Testing
 The problem with random numbers is that you cannot prove they are random. However, there are statistical tests which can indicate if a sequence of random numbers is 'random' enough. Even a sequence of numbers that doesn't look random could be random, as the random number generator could produce this sequence.
