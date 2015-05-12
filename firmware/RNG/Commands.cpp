@@ -21,7 +21,7 @@ void parseCommand(void* property, size_t length, uint32_t min, uint32_t max)
       Serial.println(*(uint32_t *) property); 
     }
   } else {
-    int value = atoi(parameter);
+    uint32_t value = atol(parameter);
     
     if (value < min || value > max) {
       Serial.print(F("Value not in range: "));
@@ -53,7 +53,7 @@ void handleSampleBucket(char* tokens)
 
 void handleSampleMultiple(char* tokens)
 {
-  parseCommand(&configuration.sampleMultiple, 2, 1, 65536U);
+  parseCommand(&configuration.sampleMultiple, 2, 1, 65535U);
 }
 
 void handleDelayHold(char* tokens)
@@ -73,7 +73,7 @@ void handleDelayRound(char* tokens)
 
 void handleSampleMask(char* tokens)
 {
-  parseCommand(&configuration.sampleMask, 2, 0, 0xFF);
+  parseCommand(&configuration.sampleMask, 2, 0, 0xFFFF);
 }
 
 void handleSampleShift(char* tokens)
