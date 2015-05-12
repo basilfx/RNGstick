@@ -41,7 +41,7 @@ To give an idea of the output, the following distribution of the P-values was cr
 
 ![board](https://raw.github.com/basilfx/RNGstick/master/docs/rng_out.png)
 
-More graphs can be found [here](https://raw.github.com/basilfx/RNGstick/master/docs/Graphs.md).
+More graphs can be found [here](https://github.com/basilfx/RNGstick/blob/master/docs/Graphs.md).
 
 ### Testing
 The problem with random numbers is that you cannot prove they are random. However, there are statistical tests which can indicate if a sequence of random numbers is 'random' enough. Even a sequence of numbers that doesn't look random could be random, as the random number generator could produce this sequence.
