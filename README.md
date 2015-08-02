@@ -89,7 +89,16 @@ Render of the stick. It measures 1.45x0.65 inch.
 ![board](https://raw.github.com/basilfx/RNGstick/master/docs/stick.png)
 
 ## Firmware
-The firmware resides in `firmware/RNG`. You will need a copy of the [CommandLine](https://github.com/basilfx/Arduino-CommandLine) Arduino library.
+The firmware resides in `firmware/RNG`. You will need a copy of the [CommandLine](https://github.com/basilfx/Arduino-CommandLine) library and the [Cruiptosuit](https://github.com/spaniakos/Cryptosuite/) library.
+
+Modify the `Arduino/CommandLine/CommandLine.h` file to reflect the following (see its `README.md` file why):
+
+```
+#define COMMANDLINE_COUNT 24
+#define COMMANDLINE_BUFFER 24
+// #define COMMANDLINE_PRE_POST
+#define COMMANDLINE_HISTORY 0
+```
 
 ## Software
 
@@ -105,7 +114,6 @@ This will install `rng-tools` for feeding the random numbers back into the kerne
  * Add `HRNGDEVICE=/dev/ttyACM0`
 * Restart `rng-tools` with `sudo service rng-tools restart`
 * Observe `/proc/sys/kernel/random/entropy_avail`
-
 
 ## License
 See the `LICENSE` file (MIT license).
