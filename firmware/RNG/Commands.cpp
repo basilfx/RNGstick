@@ -7,6 +7,11 @@ bool setupMode;
 
 /**
  * Universal method for reading 1, 2 or 4 bytes.
+ * 
+ * @param property Pointer to property to read from or write to.
+ * @param length Length in bytes of the property to read.
+ * @param min Minimal value of property.
+ * @param max Maximal value of property.
  */
 void parseCommand(void* property, size_t length, uint32_t min, uint32_t max)
 {
