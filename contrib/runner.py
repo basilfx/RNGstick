@@ -4,7 +4,7 @@ import time
 import sys
 
 # Number of bytes per test to collect
-COUNT = 1024 * 128  # 256kb
+COUNT = 1024 * 128  # 128kb
 
 # Properties to vary
 PROPERTIES = {
