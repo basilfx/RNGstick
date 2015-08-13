@@ -4,7 +4,7 @@ import time
 import sys
 
 # Number of bytes per test to collect
-COUNT = 1024 * 128  # 128kb
+COUNT = 1024 * 128  # 256kb
 
 # Properties to vary
 PROPERTIES = {
@@ -47,6 +47,10 @@ def main():
         sys.stdout.write(
             "Executing test %d/%d\n" % (index + 1, len(combinations)))
 
+        # Skip some tests
+        if index < 880:
+            continue
+
         # Reset Arduino
         device.setDTR(False)
         time.sleep(0.5)
@@ -82,3 +86,4 @@ def main():
 # E.g. `python runner.py /dev/ttyACM0`
 if __name__ == "__main__":
     sys.exit(main())
+
