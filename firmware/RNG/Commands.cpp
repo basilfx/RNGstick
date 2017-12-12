@@ -113,7 +113,7 @@ void handleOutput(char* tokens)
 
 void handleOutputMode(char* tokens)
 {
-  parseCommand(&configuration.outputMode, 1, 1, 2);
+  parseCommand(&configuration.outputMode, 1, 1, 3);
 }
 
 void handleOutputBucket(char* tokens)
