@@ -149,8 +149,17 @@ void handleRun(char* tokens)
   setupMode = false;
 }
 
+void handlePost(char* tokens, bool success)
+{
+  if (!success) {
+    Serial.println(F("Unknown command. Type 'help' for help."));
+  }
+}
+
 void addCommands()
 {
+  commandLine.attachPost(handlePost);
+  
   commandLine.add("sampleReset", &handleSampleReset);
   commandLine.add("sampleBucket", &handleSampleBucket);
   commandLine.add("sampleMultiple", &handleSampleMultiple);
